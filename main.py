@@ -58,13 +58,16 @@ async def convert(url: str = Query(..., description="URL of the image to convert
     )
 
 
-async def main():
-    config = uvicorn.Config(app, host="0.0.0.0", port=8000, log_level="info")
-    server = uvicorn.Server(config)
-    await server.serve()
-
 
 if __name__ == "__main__":
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(main())
+    import uvicorn, logging
+    logging.basicConfig(level=logging.DEBUG)
+    uvicorn.run(
+        app,
+        host="127.0.0.1",
+        port=8000,
+        timeout_keep_alive=30,
+        proxy_headers=True,
+        forwarded_allow_ips="*",
+        log_level="debug",
+    )
