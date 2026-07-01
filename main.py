@@ -22,7 +22,7 @@ def _convert_to_rgba_png(data: bytes) -> bytes:
         return buf.getvalue()
 
 
-@app.get("/convert")
+@app.get("/")
 async def convert(url: str = Query(..., description="URL of the image to convert")):
     if not url.lower().startswith(("http://", "https://")):
         raise HTTPException(status_code=400, detail="url must start with http:// or https://")
